@@ -23,5 +23,4 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         data['photo'] = request.data.get('photo')
         obj = Employee.objects.create(**data)
         ser = EmployeeSerializers_new(obj)
-        command, count = '*', 204
         return Response(ser.data)

@@ -1,7 +1,5 @@
 from rest_framework import serializers
 from structure.models import Employee, User
-from phonenumber_field.modelfields import PhoneNumberField
-from django_countries.fields import CountryField
 
 
 def str_to_int(val):
