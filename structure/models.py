@@ -4,7 +4,11 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django_countries.fields import CountryField
 
 
-# Create your models here.
+def employee_directory_path(instance, file_name):
+    directory_name = 'profile'
+    return f'{directory_name}/{file_name}'
+
+
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
     first_name = models.CharField(max_length=50)
@@ -21,4 +25,4 @@ class Employee(models.Model):
     department = models.CharField(max_length=100)
     epf_etf_number = models.CharField(max_length=10)
     date = models.DateField()
-    photo = models.ImageField(upload_to=None)
+    photo = models.ImageField(upload_to=employee_directory_path)

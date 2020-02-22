@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from .serializers import EmployeeSerializers, CustomEmployeeSerializers
-from structure.models import Employee
+from .serializers import EmployeeSerializers, EmployeeSerializers_new
+from structure.models import Employee, User
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
@@ -10,6 +10,18 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializers
 
     def create(self, request, *args, **kwargs):
-        data = CustomEmployeeSerializers(data=request.data)
-        data.is_valid(raise_exception=True)
-        return Response('ok')
+        # TODO: must delete below two lines
+        Employee.objects.all().delete()
+        User.objects.exclude(is_superuser=True).delete()
+
+        ser = EmployeeSerializers(data=request.data)
+        ser.is_valid(raise_exception=True)
+        data = ser.data
+        data.pop('username', None)
+        data.pop('password', None)
+        data.pop('retype_password', None)
+        data['photo'] = request.data.get('photo')
+        obj = Employee.objects.create(**data)
+        ser = EmployeeSerializers_new(obj)
+        command, count = '*', 204
+        return Response(ser.data)
