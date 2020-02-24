@@ -24,5 +24,5 @@ class Employee(models.Model):
     designation = models.CharField(max_length=100)
     department = models.CharField(max_length=100)
     epf_etf_number = models.CharField(max_length=10)
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
     photo = models.ImageField(upload_to=employee_directory_path)

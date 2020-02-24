@@ -34,6 +34,13 @@ class EmployeeSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, attrs):
+        command, count = '-', 204
+        print(command * count)
+        test = attrs
+        print(test)
+        print(type(test))
+        print(dir(test))
+        print(command * count)
         # check whether user available
         username = attrs.get('username')
         user = User.objects.filter(username=username)
